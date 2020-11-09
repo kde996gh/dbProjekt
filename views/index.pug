@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  div.text-center
+
+    h1= title
+    p Welcome to #{title}
+
+
+    p isLoggedIn #{session.isLoggedIn}
+
+    if session.isLoggedIn === true
+     p Welcome user #{session.user}
+     a(href="logout")
+       button(type="button") Kijelentkezes
+
+    else
+      a(href="login")
+        button(type="button") Bejelentkezes
+
