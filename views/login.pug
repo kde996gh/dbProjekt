@@ -8,15 +8,15 @@ block content
                 div(class="alert alert-danger" role='alert') #{error}
             form(action="/login" method="post")
                 div(class="form-group")
-                    label(for="username") Username
+                    label(for="username") Felhasználónév
                     input(class="form-control" type="text",name="username" placeholder="Username" autofocus)
                 div(class="form-group")
-                    label(for="password") Password
+                    label(for="password") Jelszó
                     input(class="form-control" type="password",name="password" placeholder="Password")
                 div(class="form-group")
-                    div
-                        a(href="/registration") registration
-                    div(class="text-right")
+                    div(class="text-center")
+                        a(href="/registration") Regisztráció
+                    div(class="text-center")
                         label(class="form-check-label") Remember me
                             input(type="checkbox")
                 div(class="form-group")
