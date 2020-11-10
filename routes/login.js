@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 //var userCheck = require('../authenticate/userCheck');
 const mysql = require('mysql')
-
+const db = require('../authenticate/dbconnect');
+/*
 let db =
     mysql.createConnection({
         host: 'localhost',
@@ -11,28 +12,41 @@ let db =
         // password: 'vKtQJM88vZtU8EZm',
         password: 'password',
         database: 'pizzeriadb'
-    });
+    });*/
 
 
 router.get('/', function(req, res, next) {
-    res.render(  'login',{title: 'Login' });
+    res.render(  'login',{title: 'Bejelentkezés',
+                                        message : ''})
 });
 
 
 router.post('/', function(req, res, next){
-    const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
-  // let loginResult = userCheck(username, password);
 
-    db.query('SELECT username, password FROM user WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+    let userLoggedin = {
+        email : req.body.email,
+        password : req.body.password
+    };
+    let logQuery = 'SELECT email, password FROM users WHERE ?';
+    //        let regQuery = `INSERT INTO users SET ?`;
+
+    //db.query(logQuery, userLoggedin, function(error, results, fields) {
+        db.query('SELECT email, password FROM users WHERE email = ? AND password = ?', [email, password], function(error, results, fields) {
         console.log("Result: ", results);
         console.log("Result length: ", results.length);
         if(results.length > 0) {
             req.session.isLoggedIn = true;
-            req.session.user = username;
+            req.session.user = email;
             res.redirect("/");
         }else {
-            res.send('Incorrect Username and/or Password!');
+            //req.session.errorMessage = 'Hibás felhasználónév vagy jelszó!';
+          // res.send('Incorrect Username and/or Password!');
+            res.render('login', {
+                msg: 'Hibás jelszó vagy email cim',
+                title : 'Bejelentkezés'
+            });
         }
     });
 /*

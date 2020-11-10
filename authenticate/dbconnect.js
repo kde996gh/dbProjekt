@@ -1,13 +1,15 @@
 const mysql = require('mysql')
 
-let dbconnect =
+let db =
     mysql.createConnection({
         host: 'localhost',
-        user: 'pizzauser',
-        password: 'vKtQJM88vZtU8EZm',
+        user: 'root',
+        // user: 'pizzauser',
+        // password: 'vKtQJM88vZtU8EZm',
+        password: 'password',
         database: 'pizzeriadb'
     });
 
-module.exports=dbconnect;
+module.exports=db;
 
 
