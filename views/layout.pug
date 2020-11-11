@@ -2,10 +2,36 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css')
+    link(rel='stylesheet' href = '/bootstrap/bootstrap.css')
     link(rel='stylesheet', href='../stylesheets/style.css')
   body
-    block content
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      a.navbar-brand(href='/') Pizza Denk
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+
+      .collapse.navbar-collapse(id='navbarSupportedContent')
+        ul.navbar-nav.mr-auto
+          li.nav-item
+            a.nav-link(href='/') Főoldal
+          li.nav-item
+            a.nav-link(href='/pizzas') Pizzák
+          li.nav-item
+            a.nav-link(href='/cart') Kosár
+          li.nav-item
+            a.nav-link(href='/contact') Elérhetőség
+        ul.navbar-nav.float-right
+          li.nav-item
+            if session.isLoggedIn === true
+              li.nav-item.dropdown
+                a.nav-link.dropdown-toggle(id='navbarDropdownMenuLink', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') #{session.user}
+                .dropdown-menu(aria-labelledby='navbarDropdownMenuLink')
+                  a.dropdown-item(href='personal') Adatlap
+                  a.dropdown-item(href='/logout') Kijelentkezés
+            else
+              a.nav-link(href='/login') Bejelentkezés
+
+  block content
 
 script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
 script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js')

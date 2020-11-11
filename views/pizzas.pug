@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    div.text-center
+
+        h1 Étlap
+
+
+        table.table
+            thead.thead-dark
+                tr
+                    th(scope='col') #
+                    th(scope='col') Pizza
+                    th(scope='col') Közepes Ár
+                    th(scope='col') Nagy Ár
+                    th(scope='col') Kosárba
+
+            tbody
+                each pizza in pizzas
+                    tr
+                        td= pizza.pizzaId
+                        td= pizza.name
+                        td= pizza.meretL
+                        td= pizza.meretXXL
+
+

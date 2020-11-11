@@ -1,6 +1,11 @@
-extends layout
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet' href = '/bootstrap/bootstrap.css')
+        link(rel='stylesheet', href='../stylesheets/style.css')
+    body
 
-block content
     div(class="wrapper")
         div(class="form-signin")
             h1= title

@@ -8,6 +8,15 @@ var session = require('express-session')
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let loginRouter = require('./routes/login');
+let pizzasRouter = require('./routes/pizzas');
+let contactRouter = require('./routes/contact');
+let cartRouter = require('./routes/cart');
+let personalRouter = require('./routes/personal');
+
+
+
+
+
 let registrationRouter = require('./routes/registration')
 
 var app = express();
@@ -21,6 +30,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 
 
 app.use(session({
@@ -56,6 +66,11 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter)
 app.use('/registration', registrationRouter);
+app.use('/pizzas', pizzasRouter);
+app.use('/contact', contactRouter);
+app.use('/cart', cartRouter);
+app.use('/personal', personalRouter);
+
 
 
 app.get('/logout', function(req,res,next){
