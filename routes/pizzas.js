@@ -14,15 +14,23 @@ router.get('/', async function(req, res, next) {
             let pizza = {
                 pizzaId :  pizzakSorok[i].idpizza,
                 name : pizzakSorok[i].pizzaName,
-                meretL : pizzakSorok[i].midPrice,
-                meretXXL : pizzakSorok[i].largePrice
+                priceM : pizzakSorok[i].midPrice,
+                priceL : pizzakSorok[i].largePrice,
+                alapok : pizzakSorok[i].ingridents
             };
             pizzak.push(pizza);
         }
 
+        const pizzakWithToppings = await pizzak.reduce(async (acc,pizza) =>{
+            const needsRows = await query(`SELECT * FROM needs WHERE needs.pizzaId = ${pizza.pizzaId}`) || [];
+                const needs = needsRows.map(requires => requires.materialName );
+                const tempPizza = {...pizza, toppings : needs};
+                return [...(await acc) , tempPizza];
+        },[])
+
         res.render('pizzas', {
         title: 'Pizzák',
-        pizzas : pizzak
+        pizzas : pizzakWithToppings
     });
 });
 

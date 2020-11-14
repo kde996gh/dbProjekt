@@ -39,7 +39,12 @@ router.post('/', function(req, res, next){
         if(results.length > 0) {
             req.session.isLoggedIn = true;
             req.session.user = email;
-            res.redirect("/");
+            req.session.isAdmin = (email == "admin@pizzadenk.com") ? true : false;
+            if(req.session.isAdmin)
+                res.redirect("/personal");
+            else
+                res.redirect("/");
+
         }else {
             //req.session.errorMessage = 'Hibás felhasználónév vagy jelszó!';
           // res.send('Incorrect Username and/or Password!');

@@ -12,7 +12,7 @@ let pizzasRouter = require('./routes/pizzas');
 let contactRouter = require('./routes/contact');
 let cartRouter = require('./routes/cart');
 let personalRouter = require('./routes/personal');
-
+let testRouter = require('./routes/test')
 
 
 
@@ -70,6 +70,8 @@ app.use('/pizzas', pizzasRouter);
 app.use('/contact', contactRouter);
 app.use('/cart', cartRouter);
 app.use('/personal', personalRouter);
+app.use('/test', testRouter);
+
 
 
 
@@ -78,6 +80,30 @@ app.get('/logout', function(req,res,next){
   //res.send(`<h1>You have visited ${req.session.viewCount} times, ${req.session.user} </h1>`)
   res.redirect("/")
 })
+
+app.post('/addtocart', function(req,res,next){
+  //if(req.session.cartContent)
+  //{
+    //req.session.cartContent.push(req.body.kicsi || req.body.nagy);
+    let med = req.body.size;
+    console.log(med);
+    let id = req.body.pizza_id;
+    console.log(id);
+
+    let extra = req.body.extra;
+    console.log(extra);
+
+ //}
+
+
+
+ // else {
+  //  req.session.cartContent = [];
+  //  req.session.cartContent.push(req.body.kicsi || req.body.nagy);
+ // }
+  res.redirect("/pizzas")
+})
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

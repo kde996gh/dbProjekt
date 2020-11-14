@@ -11,16 +11,58 @@ block content
                 tr
                     th(scope='col') #
                     th(scope='col') Pizza
-                    th(scope='col') Közepes Ár
-                    th(scope='col') Nagy Ár
+                    th(scope='col') Feltétek
+                    th(scope='col') Méret és Ár
+                    th(scope='col') Extra
                     th(scope='col') Kosárba
 
             tbody
+
                 each pizza in pizzas
-                    tr
-                        td= pizza.pizzaId
-                        td= pizza.name
-                        td= pizza.meretL
-                        td= pizza.meretXXL
+                    form(action="/addtocart" method="post")
+                        tr
+                            td= pizza.pizzaId
+                            - var id = pizza.pizzaId;
+                            td= pizza.name
+                            td= pizza.alapok
+                            td
+                                select#cars(name='size')
+                                    option(value='medium' )= "Közepes " + pizza.priceM
+                                    option(value='large' selected='')= "Nagy " + pizza.priceL
+                            td
+                                .multiselect
+                                    .selectBox(onclick='showCheckboxes()')
+                                        select
+                                            option Válassz feltétet
+                                        .overSelect
+                                    #checkboxes
+                                        label(for='one')
+                                            input#one(type='checkbox' name='extra' value='sajt')
+                                            | Sajt
+                                        label(for='two')
+                                            input#two(type='checkbox' name='extra' value='gomba')
+                                            | Gomba
+                                        label(for='three')
+                                            input#three(type='checkbox' name='extra' value='kukorica')
+                                            | Kukoricca
+
+                            td
+                                div(class="form-group")
+                                    div(class="text-center")
+                                        input(type='hidden' value=pizza.pizzaId name='pizza_id')
+                                        input(class="btn btn-primary" type="submit" value="Kosárba")
 
 
+    script(type='text/javascript').
+        let expanded = false;
+
+        function showCheckboxes() {
+            var checkboxes = document.getElementById("checkboxes");
+            if (!expanded) {
+                checkboxes.style.display = "block";
+                expanded = true;
+            } else {
+                checkboxes.style.display = "none";
+                expanded = false;
+            }
+        }

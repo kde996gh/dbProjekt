@@ -1,6 +1,51 @@
 extends layout
 
 block content
-    div.text-center
 
-        p SAJÁT ADATLAP OLDAL
+    div
+        if session.isAdmin
+            p Üdv PizzaAdmin :)
+                div
+                    table.table
+                        thead.thead-dark
+                            tr
+                                th(scope='col') #
+                                th(scope='col') Feltétek
+                                th(scope='col') Pizza
+                                th(scope='col') Közepes Ár
+                                th(scope='col') Nagy Ár
+                                th(scope='col') Kosárba
+
+                        tbody
+                            each pizza in pizzas
+                                tr
+
+                                    td= pizza.pizzaId
+                                    td= pizza.toppings
+                                    td= pizza.name
+                                    td= pizza.meretL
+                                    td= pizza.meretXXL
+                                    td
+                                        .dropdown.show
+                                            a#dropdownMenuLink.btn.btn-secondary.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                                                | Választ
+                                            .dropdown-menu(aria-labelledby='dropdownMenuLink')
+                                                form(action="/addtocart" method="post")
+                                                    button.a.dropdown-item(name="kicsi"  value = {
+                                                        pizza: {
+                                                            id: pizza.pizzaId,
+                                                            name: pizza.name,
+                                                            size: pizza.meretL
+                                                        }
+                                                    }) Kicsi
+                                                    button.a.dropdown-item( name="nagy" value = {
+                                                        pizza: {
+                                                            id: pizza.pizzaId,
+                                                            name: pizza.name,
+                                                            size: pizza.meretXXL
+                                                        }
+                                                    }) Nagy
+
+
+        else
+            p SAJÁT ADATLAP OLDAL
