@@ -22,52 +22,6 @@ h1(style='color: green;')
         }
 
 body
-h3#po Input Array Elements
-form(action="/test" method="post")
-    div(class="form-group")
-        label(for="username") E-mail cím
-        input(class="form-control" type="text",name="fika" placeholder="pelda@email.com" autofocus)
-    div(class="form-group")
-        div(class="text-center")
-            select#cars(name='cars')
-                option(value='volvo') Volvo
-                option(value='saab') Saab
-                option(value='mercedes') Mercedes
-                option(value='audi') Audi
-    div(name= "xs")
-        span.feltet_text
-            label
-                input(type='checkbox' name='feltetek' value='8')
-                |  pizzasz&oacute;sz: 100 Ft
-            label
-                input(type='checkbox' name='feltetek' value='22')
-                |  sonka: 250 Ft
-            label
-                input(type='checkbox' name='feltetek' value='1')
-                |  anan&aacute;sz: 190 Ft
-            label
-                input(type='checkbox' name='feltetek' value='21')
-                |  szal&aacute;mi: 250 Ft
-
-    div(name= "x")
-        .multiselect
-            .selectBox(onclick='showCheckboxes()')
-                select
-                    option Select an option
-                .overSelect
-            #checkboxes
-                label(for='one')
-                    input#one(type='checkbox' name='feltetek' value='sajt')
-                    | Sajt
-                label(for='two')
-                    input#two(type='checkbox' name='feltetek' value='gomba')
-                    | Gomba
-                label(for='three')
-                    input#three(type='checkbox' name='feltetek' value='kukorica')
-                    | Kukoricca
-
-    div(class="form-group")
-        div(class="text-center")
-            input(class="btn btn-primary" type="submit" value="Bejelentkezés")
+    p
 
 

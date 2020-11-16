@@ -81,28 +81,33 @@ app.get('/logout', function(req,res,next){
   res.redirect("/")
 })
 
-app.post('/addtocart', function(req,res,next){
-  //if(req.session.cartContent)
-  //{
-    //req.session.cartContent.push(req.body.kicsi || req.body.nagy);
-    let med = req.body.size;
-    console.log(med);
-    let id = req.body.pizza_id;
-    console.log(id);
+app.post('/addtocart',  function(req,res,next){
+    let rendeles = {
+        id : req.body.pizza_id,
+        meret : req.body.size,
+        extra : req.body.extra
+    }
+   // req.session.rndeles = rendeles;
+    if(req.session.cartContent) {
+        req.session.cartContent.push(rendeles);
+        req.session.cartContentCount++;
 
-    let extra = req.body.extra;
-    console.log(extra);
+        console.log(req.session.cartContent);
 
- //}
+    }else {
+      req.session.cartContent = [];
+      req.session.cartContent.push(rendeles);
+      req.session.cartContentCount = 1;
+        console.log(req.session.cartContent);
 
-
-
- // else {
-  //  req.session.cartContent = [];
-  //  req.session.cartContent.push(req.body.kicsi || req.body.nagy);
- // }
+    }
   res.redirect("/pizzas")
 })
+//TODO : rendeles leadasa, a rendelesek tablaba való beszúrás // Insert into tablee
+app.post('/order',  function(req,res,next) {
+
+});
+
 
 
 // catch 404 and forward to error handler

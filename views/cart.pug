@@ -4,6 +4,27 @@ block content
     div.text-center
 
         p KOSÁR OLDAL
-        p #{session.cartContent}
-        br
+        p #{JSON.stringify(session.cartContent)}
+        p !{JSON.stringify(zsa)}
 
+
+        if session.cartContent
+            table.table
+                thead.thead-dark
+                    tr
+                        th(scope='col') #
+                        th(scope='col') Pizza
+                        th(scope='col') Meret
+                        th(scope='col') Extra feltét
+                        th(scope='col') Összeg
+                tbody
+                    each x in zsa
+                        tr
+                            td= x.id
+                            td= 'nev'
+                            td= x.meret
+                            td= x.extra
+                            td= x.price
+
+
+            p='Végösszeg: ' +  sumPrice

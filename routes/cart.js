@@ -1,17 +1,38 @@
 var express = require('express');
 var router = express.Router();
+const db = require('../authenticate/dbconnect');
+const util = require('util');
 
-/* GET home page. */
+
 router.get('/', function(req, res, next) {
 
-    let arr = req.body.feltetek;
-    console.log(arr)
 
-    const cont = req.session.cartContent;
+
+        if(req.session.cartContent !== undefined){
+            for(let i =0; i<req.session.cartContent.length; i++){
+                console.log(req.session.cartContent[i]['id']);
+
+                    // TODO: query ami összeadja a materiaal arakat + pizza arat és hozzá adja az adott objecthez
+
+
+                    // TODO: vegosszeg
+
+
+
+
+                req.session.cartContent[i]['price'] = 55+i*10;
+            }
+        }
+
+
+
+
+
 
     res.render('cart', {
         title: 'Kosár',
-        cont : cont
+        zsa : req.session.cartContent,
+        sumPrice : 5
     });
 });
 

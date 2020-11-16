@@ -22,7 +22,6 @@ block content
                     form(action="/addtocart" method="post")
                         tr
                             td= pizza.pizzaId
-                            - var id = pizza.pizzaId;
                             td= pizza.name
                             td= pizza.alapok
                             td
@@ -55,6 +54,10 @@ block content
 
     script(type='text/javascript').
         let expanded = false;
+
+        console.log(document.querySelectorAll("extra"));
+
+
 
         function showCheckboxes() {
             var checkboxes = document.getElementById("checkboxes");

@@ -28,6 +28,8 @@ router.get('/', async function(req, res, next) {
                 return [...(await acc) , tempPizza];
         },[])
 
+
+
         res.render('pizzas', {
         title: 'Pizzák',
         pizzas : pizzakWithToppings
