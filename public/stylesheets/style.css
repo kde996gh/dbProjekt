@@ -42,7 +42,9 @@ body {
 max-width: 50px;
 
 }
-
+.dropdown-menu label {
+  display: block;
+}
 .multiselect {
   width: 200px;
 }

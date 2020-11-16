@@ -29,10 +29,22 @@ router.get('/', async function(req, res, next) {
         },[])
 
 
+        const feltetek = await query('SELECT * from material');
+            let feltetArak = [];
+            for(let i = 0; i<feltetek.length; i++) {
+                let feltetObj = {
+                    name : feltetek[i].name,
+                    price : feltetek[i].ar
+                };
+                feltetArak.push(feltetObj);
+            }
+            console.log(feltetArak)
+
 
         res.render('pizzas', {
         title: 'Pizzák',
-        pizzas : pizzakWithToppings
+        pizzas : pizzakWithToppings,
+        feltetArak : feltetArak
     });
 });
 

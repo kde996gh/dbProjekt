@@ -19,11 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81f59892-7d7e-460c-ad48-d1dd9f4907f4" name="Default Changelist" comment="asd">
+    <list default="true" id="81f59892-7d7e-460c-ad48-d1dd9f4907f4" name="Default Changelist" comment="megy a session cart">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/cart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/cart.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/cart.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/stylesheets/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/pizzas.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/pizzas.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/layout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/pizzas.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/pizzas.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/test.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/test.pug" afterDir="false" />
@@ -71,7 +70,7 @@
       <workItem from="1605289470116" duration="3827000" />
       <workItem from="1605379627115" duration="12385000" />
       <workItem from="1605442717146" duration="2463000" />
-      <workItem from="1605512903144" duration="8905000" />
+      <workItem from="1605512903144" duration="13060000" />
     </task>
     <task id="LOCAL-00001" summary="magyarositott">
       <created>1604959462606</created>
@@ -101,7 +100,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605390747991</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="megy a session cart">
+      <created>1605524909865</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1605524909865</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -124,29 +130,30 @@
     <MESSAGE value="db reg + db login" />
     <MESSAGE value="etlap listazas" />
     <MESSAGE value="asd" />
-    <option name="LAST_COMMIT_MESSAGE" value="asd" />
+    <MESSAGE value="megy a session cart" />
+    <option name="LAST_COMMIT_MESSAGE" value="megy a session cart" />
   </component>
   <component name="WindowStateProjectService">
     <state x="549" y="172" key="FileChooserDialogImpl" timestamp="1604931839617">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="549" y="172" key="FileChooserDialogImpl/0.0.1536.834@0.0.1536.834" timestamp="1604931839617" />
-    <state width="1500" height="196" key="GridCell.Tab.0.bottom" timestamp="1605524603108">
+    <state width="1500" height="61" key="GridCell.Tab.0.bottom" timestamp="1605528645013">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1500" height="196" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1605524603108" />
-    <state width="1500" height="196" key="GridCell.Tab.0.center" timestamp="1605524603107">
+    <state width="1500" height="61" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1605528645013" />
+    <state width="1500" height="61" key="GridCell.Tab.0.center" timestamp="1605528645012">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1500" height="196" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1605524603107" />
-    <state width="1500" height="196" key="GridCell.Tab.0.left" timestamp="1605524603107">
+    <state width="1500" height="61" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1605528645012" />
+    <state width="1500" height="61" key="GridCell.Tab.0.left" timestamp="1605528645012">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1500" height="196" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1605524603107" />
-    <state width="1500" height="196" key="GridCell.Tab.0.right" timestamp="1605524603107">
+    <state width="1500" height="61" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1605528645012" />
+    <state width="1500" height="61" key="GridCell.Tab.0.right" timestamp="1605528645012">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1500" height="196" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1605524603107" />
+    <state width="1500" height="61" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1605528645012" />
     <state width="1500" height="261" key="GridCell.Tab.1.bottom" timestamp="1605513691178">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
@@ -195,10 +202,10 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state width="1500" height="261" key="GridCell.Tab.3.right/0.0.1536.834@0.0.1536.834" timestamp="1605513691179" />
-    <state x="361" y="150" key="Vcs.Push.Dialog.v2" timestamp="1605390750148">
+    <state x="361" y="150" key="Vcs.Push.Dialog.v2" timestamp="1605524914269">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="361" y="150" key="Vcs.Push.Dialog.v2/0.0.1536.834@0.0.1536.834" timestamp="1605390750148" />
+    <state x="361" y="150" key="Vcs.Push.Dialog.v2/0.0.1536.834@0.0.1536.834" timestamp="1605524914269" />
     <state x="586" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605385401185">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
