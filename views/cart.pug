@@ -4,8 +4,6 @@ block content
     div.text-center
 
         p KOSÁR OLDAL
-        p #{JSON.stringify(session.cartContent)}
-        p !{JSON.stringify(zsa)}
 
 
         if session.cartContent
@@ -14,6 +12,7 @@ block content
                     tr
                         th(scope='col') #
                         th(scope='col') Pizza
+                        th(scope='col') Pizza
                         th(scope='col') Meret
                         th(scope='col') Extra feltét
                         th(scope='col') Összeg
@@ -21,10 +20,10 @@ block content
                     each x in zsa
                         tr
                             td= x.id
-                            td= 'nev'
+                            td= session.cartContent.name
                             td= x.meret
                             td= x.extra
-                            td= x.price
+                            td= x.total
 
 
             p='Végösszeg: ' +  sumPrice

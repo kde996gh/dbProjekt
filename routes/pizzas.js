@@ -38,7 +38,9 @@ router.get('/', async function(req, res, next) {
                 };
                 feltetArak.push(feltetObj);
             }
-            console.log(feltetArak)
+         //   console.log(feltetArak)
+
+
 
 
         res.render('pizzas', {

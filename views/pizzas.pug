@@ -26,34 +26,21 @@ block content
                             td= pizza.alapok
                             td
                                 select#cars(name='size')
-                                    option(value='medium' )= "Közepes " + pizza.priceM
-                                    option(value='large' selected='')= "Nagy " + pizza.priceL
+                                    option(value= pizza.priceM )= "Közepes " + pizza.priceM
+                                    option(value= pizza.priceL selected='')= "Nagy " + pizza.priceL
                             td
                                 .container
                                     .row
                                         .col-lg-12
                                             .button-group
                                                 button.btn.btn-default.btn-sm.dropdown-toggle(type='button' data-toggle='dropdown')
-                                                    span.glyphicon.glyphicon-cog
-                                                    span.caret
+                                                    span +
                                                 ul.dropdown-menu
+                                                    each f in feltetArak
+                                                        li
+                                                            input(type='checkbox' name='extra' value= f.name)
+                                                            | #{f.name}
 
-
-                                                    li
-                                                            input(type='checkbox' name='extra' value='sonka')
-                                                            | Sonka
-                                                    li
-                                                            input(type='checkbox' name='extra' value='Kolbasz')
-                                                            | Kolbasz
-                                                    li
-                                                            input(type='checkbox')
-                                                            | &nbsp;Option 4
-                                                    li
-                                                            input(type='checkbox')
-                                                            | &nbsp;Option 5
-                                                    li
-                                                            input(type='checkbox')
-                                                            | &nbsp;Option 6
 
                             td
                                 div(class="form-group")
