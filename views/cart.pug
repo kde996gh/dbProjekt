@@ -12,18 +12,21 @@ block content
                     tr
                         th(scope='col') #
                         th(scope='col') Pizza
-                        th(scope='col') Pizza
                         th(scope='col') Meret
                         th(scope='col') Extra feltét
                         th(scope='col') Összeg
+                        th(scope='col') Töröl
                 tbody
                     each x in zsa
                         tr
                             td= x.id
-                            td= session.cartContent.name
+                            td= x.name
                             td= x.meret
                             td= x.extra
                             td= x.total
 
 
             p='Végösszeg: ' +  sumPrice
+            div
+                form(action="/addToOrderTable" method="post")
+                    input(class="btn btn-primary" type="submit" value="Vásárol")

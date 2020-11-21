@@ -14,15 +14,26 @@ router.get('/', async function(req, res, next) {
                 currPizzaId = req.session.cartContent[i]['id'];
                 currFeltetek = req.session.cartContent[i]['extra'];
                 //console.log(currPizzaId);
-               // console.log(currFeltetek);
+               // console.log("feltetek: ", currFeltetek)
                 let sum = 0;
                 //+ feltétek árának kiszámolása
                 if (currFeltetek !== undefined) {
-                    for(let k = 0; k<currFeltetek.length; k++){
-                        const sorok = await query('SELECT ar FROM material WHERE name IN  (?)', currFeltetek[k]);
-                      //  console.log("sorok: ", (sorok[0].ar));
-                        sum += sorok[0].ar;
+                    //array check kell mivel ha csak +1 extra feltet van akkor azt nem tömbnek veszi hanem sima véltozónak és elszáll a program
+                    if(Array.isArray(currFeltetek)){
+                        for(let k = 0; k<currFeltetek.length; k++){
+                           // console.log("feltetekCiklus: ", currFeltetek[k])
+                            const sorok = await query('SELECT ar FROM material WHERE name IN  (?)', currFeltetek[k]);
+                            //console.log("sorok: ", (sorok[0].ar));
+                          // console.log("sorok: ", sorok[0].ar)
+                              sum += sorok[0].ar;
+                        }
                     }
+                    else{
+                        const sor = await query('SELECT ar FROM material WHERE name IN  (?)', currFeltetek);
+                        sum += sor[0].ar;
+                       // console.log(sor[0].ar)
+                    }
+
                 }
                 //adott puzza ára
                 let qqq = parseInt(req.session.cartContent[i]['meret']);
@@ -52,10 +63,7 @@ router.get('/', async function(req, res, next) {
 
 
 
-                // TODO: query ami összeadja a materiaal arakat + pizza arat és hozzá adja az adott objecthez
 
-
-                    // TODO: vegosszeg
 
 
 

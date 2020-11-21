@@ -84,6 +84,7 @@ app.get('/logout', function(req,res,next){
 app.post('/addtocart',  function(req,res,next){
     let rendeles = {
         id : req.body.pizza_id,
+        name : req.body.pizzaName,
         meret : req.body.size,
         extra : req.body.extra
     }
@@ -92,17 +93,29 @@ app.post('/addtocart',  function(req,res,next){
         req.session.cartContent.push(rendeles);
         req.session.cartContentCount++;
 
-        console.log(req.session.cartContent);
+       // console.log(req.session.cartContent);
 
     }else {
       req.session.cartContent = [];
       req.session.cartContent.push(rendeles);
       req.session.cartContentCount = 1;
-        console.log(req.session.cartContent);
+        //console.log(req.session.cartContent);
 
     }
   res.redirect("/pizzas")
 })
+
+app.post("/addToOrderTable", function(req, res, next){
+
+    for(let i=0; i< req.session.cartContent.length; i++){
+        console.log(req.session.cartContent[i]);
+    }
+
+
+})
+
+
+
 //TODO : rendeles leadasa, a rendelesek tablaba való beszúrás // Insert into tablee
 app.post('/order',  function(req,res,next) {
 

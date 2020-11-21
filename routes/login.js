@@ -34,8 +34,8 @@ router.post('/', function(req, res, next){
 
     //db.query(logQuery, userLoggedin, function(error, results, fields) {
         db.query('SELECT email, password FROM users WHERE email = ? AND password = ?', [email, password], function(error, results, fields) {
-        console.log("Result: ", results);
-        console.log("Result length: ", results.length);
+        //console.log("Result: ", results);
+        //console.log("Result length: ", results.length);
         if(results.length > 0) {
             req.session.isLoggedIn = true;
             req.session.user = email;
