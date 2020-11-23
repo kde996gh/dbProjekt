@@ -13,8 +13,7 @@ block content
                         tr
                             th(scope='col') #
                             th(scope='col') Pizza
-                            th(scope='col') Meret
-                            th(scope='col') Extra feltét
+                            th(scope='col') Feltétek
                             th(scope='col') Összeg
                             th(scope='col') Töröl
                     tbody
@@ -22,54 +21,65 @@ block content
                             tr
                                 td= x.id
                                 td= x.name
-                                td= x.meret
                                 td= x.extra
-                                td= x.total
+                                td= x.ar
 
 
-                p='Végösszeg: ' +  sumPrice
-                input(type='hidden' value=sumPrice name='finalPrice')
+                p='Végösszeg: ' +  priceSum
+                input(type='hidden' value=priceSum name='finalPrice')
 
-                input#email(type='text' name='emailx')
-                label(for="password") email
+                div(class="form-signin")
+                    div(class="form-group")
+                        label(for="email") Email cím
+                        input#email(class="form-control" type="text", name="email"  autofocus required)
 
-                br
-                input#nameirl(type='text' name='nameirl')
-                label(for="password") Teljes nev
+                    div(class="form-group")
+                        label(for="nev") Név
+                        input#nameirl(class="form-control" type="text", name="nameirl"  autofocus required)
 
-                br
-                input#phone(type='text' name='phone')
-                label(for="password") telefon
+                    div(class="form-group")
+                        label(for="email") Telefonszám
+                        input#phone(class="form-control" type="text", name="phone"  autofocus required)
 
-                br
-                input#city(type='text' name='city')
-                label(for="password") varos
+                    div(class="form-group")
+                        label(for="x") Város
+                            input#city(class="form-control" type="text",name="city"  required)
+                        label(for="x") Utca
+                            input#street(class="form-control" type="text",name="street"  required)
+                        label(for="x") Házszám
+                            input#adNumber(class="form-control" type="text",name="adNumber" required)
+                        label(for="x") Emelet/ajtó
+                            input#floorBell(class="form-control" type="text",name="floorBell" required)
 
-                br
-                input#street(type='text' name='street')
-                label(for="password") utca
+                    div(class="form-group")
+                        div(class="text-center")
+                            input(class="btn btn-primary" type="submit" value="Vásárlás")
 
-                br
-                input#adnumber(type='text' name='adNumber')
-                label(for="password") haz sszam
-
-                br
-                input#floorbell(type='text' name='floorBell' )
-                label(for="password") csengo
-                div
-                    input(class="btn btn-primary" type="submit" value="Vásárol")
 
         script.
             var user = !{JSON.stringify(session.loggedInUser)}
+            console.log(user);
             window.onload = function () {
                 function setData(input) {
                     return input;
                 }
-                document.getElementById("email").value = setData(user.email);
-                document.getElementById("nameirl").value = setData(user.nameirl);
-                document.getElementById("phone").value = setData(user.phone);
-                document.getElementById("city").value = setData(user.city);
-                document.getElementById("street").value = setData(user.street);
-                document.getElementById("adnumber").value = setData(user.adNumber);
-                document.getElementById("floorbell").value = setData(user.floorBell);
+
+                if(user) {
+                    document.getElementById("email").value = setData(user.email);
+                    document.getElementById("nameirl").value = setData(user.nameirl);
+                    document.getElementById("phone").value = setData(user.phone);
+                    document.getElementById("city").value = setData(user.city);
+                    document.getElementById("street").value = setData(user.street);
+                    document.getElementById("adNumber").value = setData(user.adNumber);
+                    document.getElementById("floorBell").value = setData(user.floorBell);
+                }
+                else{
+                    document.getElementById("email").value = "";
+                    document.getElementById("nameirl").value = "";
+                    document.getElementById("phone").value = "";
+                    document.getElementById("city").value = "";
+                    document.getElementById("street").value = "";
+                    document.getElementById("adNumber").value = "";
+                    document.getElementById("floorBell").value = "";
+                }
             };

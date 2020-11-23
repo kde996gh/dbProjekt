@@ -79,7 +79,6 @@ app.use('/test', testRouter);
 
 app.get('/logout', function(req,res,next){
   req.session.destroy();
-  //res.send(`<h1>You have visited ${req.session.viewCount} times, ${req.session.user} </h1>`)
   res.redirect("/")
 })
 
@@ -87,37 +86,29 @@ app.post('/addtocart',  function(req,res,next){
     let rendeles = {
         id : req.body.pizza_id,
         name : req.body.pizzaName,
-        meret : req.body.size,
-        extra : req.body.extra
+        extra : req.body.pizzaMaterial,
+        meret : req.body.size
     }
-   // req.session.rndeles = rendeles;
     if(req.session.cartContent) {
         req.session.cartContent.push(rendeles);
         req.session.cartContentCount++;
-
-       // console.log(req.session.cartContent);
-
     }else {
       req.session.cartContent = [];
       req.session.cartContent.push(rendeles);
       req.session.cartContentCount = 1;
-        //console.log(req.session.cartContent);
 
     }
   res.redirect("/pizzas")
 })
 
-
-
-app.post("/addToOrderTable",  function(req, res, next){
+app.post("/addToOrderTable",  async function(req, res, next){
 
     //random id generator,
-        let orderIdGen = Math.floor((Math.random() * 10000) + 1);
-
-
+    let orderIdGen = Math.floor((Math.random() * 10000) + 1);
     // console.log(orderIdGen);
     let d = new Date();
     // console.log("final price: ", d);
+    const query = util.promisify(db.query).bind(db);
 
     let orderFinal = {
         Order_id : orderIdGen,
@@ -129,8 +120,28 @@ app.post("/addToOrderTable",  function(req, res, next){
         adNumber : req.body.adNumber,
         floorBell : req.body.floorBell,
         name : req.body.nameirl,
-        when : d
+        when : d,
+        email : req.body.email
     };
+    let email = req.body.email;
+    //console.log("IMEL: ", email);
+
+    let emailCheck =await query(`SELECT * FROM pizzeriadb.users WHERE email = "${email}"`);
+    if(emailCheck.length === 0){
+        let userInsertToUsers = {
+            email : req.body.email,
+            password : "password",
+            nameirl : req.body.nameirl,
+            phone : req.body.phone,
+            city : req.body.city,
+            street : req.body.street,
+            adNumber : req.body.adNumber,
+            floorBell : req.body.floorBell,
+            isAdmin : 0
+        };
+       await query('INSERT INTO users SET ?', userInsertToUsers);
+    }
+
 
     db.query('INSERT INTO pizzeriadb.order SET ?', orderFinal, function(err, result){
         if (err) {
@@ -146,22 +157,15 @@ app.post("/addToOrderTable",  function(req, res, next){
     idArray.forEach(function(i) { count[i] = (count[i]||0) + 1;});
 
     for (let [key, value] of Object.entries(count)) {
-        db.query(`INSERT INTO pizzeriadb.contains (orderId, mennyiseg, pizzaId) VALUES ( ${orderIdGen}, ${value}, ${key})`);
+        db.query(`INSERT INTO pizzeriadb.includes (orderId, mennyiseg, pizzaId) VALUES ( ${orderIdGen}, ${value}, ${key})`);
         //console.log(`${key}: ${value}`);
     }
-
-
-      //  for(let i=0; i<req.session.cartContentCount; i++){
-       // console.log("coneten:  ",req.session.cartContent[i]);
-          // console.log(orderFinal);
-
-
-        //egyforma tipusu pizzák mennyiségének kiszámolása
-         //for(let i =0; i<req.session.cartContentCount; i++){
-            //let pizzid = req.session.cartContent[i].id;
-             //console.log(pizzid);
-
-        // }
+    delete req.session.cartContent;
+    delete req.session.cartContentCount;
+    res.render('index', {
+        title: 'Főoldal',
+        success : "Sikeres rendelés!"
+    });
 
 })
 
@@ -173,10 +177,13 @@ app.post('/editstatus',  async function(req,res,next) {
     const query = util.promisify(db.query).bind(db);
 
     const rendelesek = await query('SELECT * FROM pizzeriadb.order');
-
-
-    db.query(`UPDATE pizzeriadb.order SET Status = '${req.body.status}' WHERE Order_id = ${req.body.orderId}`);
-
+    if(req.body.status==='Torles'){
+        let currId = req.body.orderId;
+        await query(`DELETE FROM pizzeriadb.includes WHERE pizzeriadb.includes.orderId = ${currId};`);
+        await query(`DELETE FROM pizzeriadb.order WHERE pizzeriadb.order.Order_id = ${currId};`);
+    }else {
+        db.query(`UPDATE pizzeriadb.order SET Status = '${req.body.status}' WHERE Order_id = ${req.body.orderId}`);
+    }
     res.render('index', {
       //  title: 'Admin',
        // rendelesek : rendelesek

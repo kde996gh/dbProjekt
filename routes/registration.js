@@ -29,7 +29,6 @@ router.post('/', function(req,res,next){
             street : req.body.street,
             adnumber : req.body.adnumber,
             floorbell : req.body.floorbell,
-            points : 0,
             isAdmin : 0
         };
 

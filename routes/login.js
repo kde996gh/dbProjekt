@@ -1,18 +1,6 @@
 var express = require('express');
 var router = express.Router();
-//var userCheck = require('../authenticate/userCheck');
-const mysql = require('mysql')
 const db = require('../authenticate/dbconnect');
-/*
-let db =
-    mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        // user: 'pizzauser',
-        // password: 'vKtQJM88vZtU8EZm',
-        password: 'password',
-        database: 'pizzeriadb'
-    });*/
 
 
 router.get('/', function(req, res, next) {

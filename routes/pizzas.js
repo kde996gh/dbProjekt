@@ -1,52 +1,43 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../authenticate/dbconnect');
-/* GET home page. */
 const util = require('util');
 
 router.get('/', async function(req, res, next) {
-
     const query = util.promisify(db.query).bind(db);
-
     const pizzakSorok = await query('SELECT * FROM pizza');
         let pizzak = [];
-        for(let i = 0; i<pizzakSorok.length; i++){
-            let pizza = {
-                pizzaId :  pizzakSorok[i].idpizza,
-                name : pizzakSorok[i].pizzaName,
-                priceM : pizzakSorok[i].midPrice,
-                priceL : pizzakSorok[i].largePrice,
-                alapok : pizzakSorok[i].ingridents
-            };
-            pizzak.push(pizza);
-        }
-
-        const pizzakWithToppings = await pizzak.reduce(async (acc,pizza) =>{
-            const needsRows = await query(`SELECT * FROM needs WHERE needs.pizzaId = ${pizza.pizzaId}`) || [];
-                const needs = needsRows.map(requires => requires.materialName );
-                const tempPizza = {...pizza, toppings : needs};
-                return [...(await acc) , tempPizza];
-        },[])
-
-
-        const feltetek = await query('SELECT * from material');
-            let feltetArak = [];
-            for(let i = 0; i<feltetek.length; i++) {
-                let feltetObj = {
-                    name : feltetek[i].name,
-                    price : feltetek[i].ar
-                };
-                feltetArak.push(feltetObj);
-            }
-         //   console.log(feltetArak)
-
-
-
+       // pizza objektum letrehozasa es adattagok eltarolasa a lekerdezesbol
+       for(let i = 0; i<pizzakSorok.length; i++) {
+           let pizza = {
+               pizzaId: pizzakSorok[i].idpizza,
+               name: pizzakSorok[i].pizzaName,
+               priceM: pizzakSorok[i].midPrice,
+               priceL: pizzakSorok[i].largePrice
+           };
+           //alapanyagok lekérése az adott IDjű pizzahoz
+           let getMaterials = await query(`
+           SELECT pizzeriadb.needs.materialName 
+           FROM pizzeriadb.pizza, pizzeriadb.needs 
+           WHERE pizzeriadb.pizza.idpizza = pizzeriadb.needs.pizzaId 
+           AND pizzeriadb.needs.pizzaId = ${pizzakSorok[i].idpizza}
+           ORDER BY pizzeriadb.needs.materialName DESC;`);
+            // adott alapanyag lekerdezes tömbből stringgé alakítása és a pizza objektumhoz való csatolása
+           let stringge = "";
+           for (let a = 0; a < getMaterials.length; a++) {
+               if(stringge.length === 0)
+                   stringge += getMaterials[a].materialName;
+               else
+                   stringge += ", " + getMaterials[a].materialName;
+           }
+           pizza.material = stringge;
+           pizzak.push(pizza);
+       }
 
         res.render('pizzas', {
         title: 'Pizzák',
-        pizzas : pizzakWithToppings,
-        feltetArak : feltetArak
+        pizzas : pizzak
+
     });
 });
 

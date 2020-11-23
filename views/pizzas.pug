@@ -13,7 +13,6 @@ block content
                     th(scope='col') Pizza
                     th(scope='col') Feltétek
                     th(scope='col') Méret és Ár
-                    th(scope='col') Extra feltét
                     th(scope='col') Kosárba
 
             tbody
@@ -23,47 +22,17 @@ block content
                         tr
                             td= pizza.pizzaId
                             td= pizza.name
-                            td= pizza.alapok
+                            td= pizza.material
                             td
-                                select#cars(name='size')
+                                select(name='size')
                                     option(value= pizza.priceM )= "Közepes " + pizza.priceM
                                     option(value= pizza.priceL selected='')= "Nagy " + pizza.priceL
-                            td
-                                .container
-                                    .row
-                                        .col-lg-12
-                                            .button-group
-                                                button.btn.btn-default.btn-sm.dropdown-toggle(type='button' data-toggle='dropdown')
-                                                    span +
-                                                ul.dropdown-menu
-                                                    each f in feltetArak
-                                                        li
-                                                            input(type='checkbox' name='extra' value= f.name)
-                                                            | #{f.name}
-
-
                             td
                                 div(class="form-group")
                                     div(class="text-center")
                                         input(type='hidden' value=pizza.pizzaId name='pizza_id')
                                         input(type='hidden' value=pizza.name name='pizzaName')
+                                        input(type='hidden' value=pizza.material name='pizzaMaterial')
                                         input(class="btn btn-primary" type="submit" value="Kosárba")
 
 
-    script(type='text/javascript').
-        let expanded = false;
-
-        console.log(document.querySelectorAll("extra"));
-
-
-
-        function showCheckboxes() {
-            var checkboxes = document.getElementById("checkboxes");
-            if (!expanded) {
-                checkboxes.style.display = "block";
-                expanded = true;
-            } else {
-                checkboxes.style.display = "none";
-                expanded = false;
-            }
-        }

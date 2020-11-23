@@ -5,69 +5,32 @@ const util = require('util');
 
 
 router.get('/', async function(req, res, next) {
+    console.log(req.session.loggedInUser)
     const query = util.promisify(db.query).bind(db);
+        //uj valtozba mentes mivel amugy mindig hozzáadná az adott összeghez saját magát minden ujtratöltésnél
+        let curr = req.session.cartContent;
+       // console.log(curr);
+        let priceSum = 0;
+        if(curr !== undefined) {
+            for (let i = 0; i < curr.length; i++) {
+                let totalSum = 0;
 
-    let totalSUmma = 0;
-
-        if(req.session.cartContent !== undefined) {
-            for (let i = 0; i < req.session.cartContent.length; i++) {
-                currPizzaId = req.session.cartContent[i]['id'];
-                currFeltetek = req.session.cartContent[i]['extra'];
-                //console.log(currPizzaId);
-               // console.log("feltetek: ", currFeltetek)
-                let sum = 0;
-                //+ feltétek árának kiszámolása
-                if (currFeltetek !== undefined) {
-                    //array check kell mivel ha csak +1 extra feltet van akkor azt nem tömbnek veszi hanem sima véltozónak és elszáll a program
-                    if(Array.isArray(currFeltetek)){
-                        for(let k = 0; k<currFeltetek.length; k++){
-                           // console.log("feltetekCiklus: ", currFeltetek[k])
-                            const sorok = await query('SELECT ar FROM material WHERE name IN  (?)', currFeltetek[k]);
-                            //console.log("sorok: ", (sorok[0].ar));
-                          // console.log("sorok: ", sorok[0].ar)
-                              sum += sorok[0].ar;
-                        }
-                    }
-                    else{
-                        const sor = await query('SELECT ar FROM material WHERE name IN  (?)', currFeltetek);
-                        sum += sor[0].ar;
-                       // console.log(sor[0].ar)
-                    }
-
-                }
-                //adott puzza ára
-                let qqq = parseInt(req.session.cartContent[i]['meret']);
-                //console.log('SIZE : ', req.session.cartContent[i]['meret']);
-
-                req.session.cartContent[i]['total'] = sum + qqq;
-               // console.log("SUMMA", sum);
-                totalSUmma += (qqq+sum);
+                let currPizzaId = curr[i]['id'];
+                //a pizzák ára a rajta lévő feltétektől függ, ezt minden pizzára külön számolja ki, az alábbi lekérdezés
+                let sum = await query(`
+                    SELECT SUM(pizzeriadb.material.price) AS ar
+                    FROM pizzeriadb.pizza, pizzeriadb.material, pizzeriadb.needs
+                    WHERE pizzeriadb.pizza.idpizza = pizzeriadb.needs.pizzaId
+                    AND pizzeriadb.needs.materialName = pizzeriadb.material.matName
+                    AND pizzeriadb.needs.pizzaId = ${currPizzaId};
+                `);
+                totalSum += parseInt(sum[0].ar) + parseInt(curr[i].meret);
+             //   console.log(typeof parseInt(sum[0].ar));
+                //console.log("TOTAL: ", totalSum)
+                curr[i].ar = totalSum ;
+                priceSum += totalSum;
             }
-
         }
-
-                   /*
-                   let sql = 'SELECT ar FROM material WHERE name = ?';
-                   for(let j=0; j<currFeltetek.length; j++){
-                       db.query(sql, currFeltetek[j], function(err, result){
-                          // sum += result;
-                            console.log("result: ", result);
-                            for(let k in result){
-                                sum+=k;
-                            }
-                       })
-                   }
-               }
-
-*/
-
-
-
-
-
-
-
-
 
 
 
@@ -75,9 +38,9 @@ router.get('/', async function(req, res, next) {
 
     res.render('cart', {
         title: 'Kosár',
-        zsa : req.session.cartContent,
-        sumPrice : totalSUmma,
-        addressData : req.session.loggedInUser
+        zsa : curr,
+        addressData : req.session.loggedInUser,
+        priceSum : priceSum
     });
 });
 

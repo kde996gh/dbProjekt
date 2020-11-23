@@ -6,20 +6,15 @@ const util = require('util');
 /* GET home page. */
 router.get('/', async function(req, res, next) {
 
-    if(req.session.isAdmin == true){
-
+    if(req.session.isAdmin === true){
 
         const query = util.promisify(db.query).bind(db);
 
        const rendelesek = await query('SELECT * FROM pizzeriadb.order');
+
+      // const osszetettRendeles = await query("");
+
        // console.log(rendelesek);
-
-
-
-
-
-
-
 
 
         res.render('personal', {

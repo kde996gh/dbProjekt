@@ -28,10 +28,11 @@ block content
                                             td= rendeles.Order_id
                                             td= rendeles.Status
                                                 input(type='hidden' value=rendeles.Order_id name='orderId')
-                                                select#cars(name='status')
-                                                    option(value= "Feldolgozas alatt" selected='')= "Feldolgozas alatt"
-                                                    option(value= "Keszites folyamatban" )= "Készítés folyamatban"
-                                                    option(value= "Lezart" )= "Lezárt"
+                                                select(name='status')
+                                                    option(value= "Feldolgozas alatt" )= "Feldolgozás alatt"
+                                                    option(value= "Keszites folyamatban")= "Készítés folyamatban"
+                                                    option(value= "Lezart")= "Lezárt"
+                                                    option(value= "Torles")= "Törlés"
                                             td= rendeles.finalPrice
                                             td= rendeles.phone
                                             td= rendeles.city
