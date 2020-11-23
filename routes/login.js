@@ -37,7 +37,8 @@ router.post('/', function(req, res, next){
         //console.log("Result: ", results);
         //console.log("Result length: ", results.length);
         if(results.length > 0) {
-            req.session.isLoggedIn = true;
+
+                req.session.isLoggedIn = true;
             req.session.user = email;
             req.session.isAdmin = (email == "admin@pizzadenk.com") ? true : false;
             if(req.session.isAdmin)
@@ -53,18 +54,16 @@ router.post('/', function(req, res, next){
                 title : 'Bejelentkezés'
             });
         }
+
+
+
+
     });
-/*
-    if(loginResult){
-        req.session.isLoggedIn = true;
-        req.session.user = username;
-        res.redirect("/")
-    }
-    else{
-        console.log("LOGIN RESULT",loginResult)
-        res.send("<h1> Hibas jelszo vagy felhasználónév! </h1>")
-    }
-*/
+
+
+
+
+
 
 });
 

@@ -7,26 +7,69 @@ block content
 
 
         if session.cartContent
-            table.table
-                thead.thead-dark
-                    tr
-                        th(scope='col') #
-                        th(scope='col') Pizza
-                        th(scope='col') Meret
-                        th(scope='col') Extra feltét
-                        th(scope='col') Összeg
-                        th(scope='col') Töröl
-                tbody
-                    each x in zsa
+            form(action="/addToOrderTable" method="post")
+                table.table
+                    thead.thead-dark
                         tr
-                            td= x.id
-                            td= x.name
-                            td= x.meret
-                            td= x.extra
-                            td= x.total
+                            th(scope='col') #
+                            th(scope='col') Pizza
+                            th(scope='col') Meret
+                            th(scope='col') Extra feltét
+                            th(scope='col') Összeg
+                            th(scope='col') Töröl
+                    tbody
+                        each x in zsa
+                            tr
+                                td= x.id
+                                td= x.name
+                                td= x.meret
+                                td= x.extra
+                                td= x.total
 
 
-            p='Végösszeg: ' +  sumPrice
-            div
-                form(action="/addToOrderTable" method="post")
+                p='Végösszeg: ' +  sumPrice
+                input(type='hidden' value=sumPrice name='finalPrice')
+
+                input#email(type='text' name='emailx')
+                label(for="password") email
+
+                br
+                input#nameirl(type='text' name='nameirl')
+                label(for="password") Teljes nev
+
+                br
+                input#phone(type='text' name='phone')
+                label(for="password") telefon
+
+                br
+                input#city(type='text' name='city')
+                label(for="password") varos
+
+                br
+                input#street(type='text' name='street')
+                label(for="password") utca
+
+                br
+                input#adnumber(type='text' name='adNumber')
+                label(for="password") haz sszam
+
+                br
+                input#floorbell(type='text' name='floorBell' )
+                label(for="password") csengo
+                div
                     input(class="btn btn-primary" type="submit" value="Vásárol")
+
+        script.
+            var user = !{JSON.stringify(session.loggedInUser)}
+            window.onload = function () {
+                function setData(input) {
+                    return input;
+                }
+                document.getElementById("email").value = setData(user.email);
+                document.getElementById("nameirl").value = setData(user.nameirl);
+                document.getElementById("phone").value = setData(user.phone);
+                document.getElementById("city").value = setData(user.city);
+                document.getElementById("street").value = setData(user.street);
+                document.getElementById("adnumber").value = setData(user.adNumber);
+                document.getElementById("floorbell").value = setData(user.floorBell);
+            };

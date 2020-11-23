@@ -73,11 +73,11 @@ router.get('/', async function(req, res, next) {
 
 
 
-
     res.render('cart', {
         title: 'Kosár',
         zsa : req.session.cartContent,
-        sumPrice : totalSUmma
+        sumPrice : totalSUmma,
+        addressData : req.session.loggedInUser
     });
 });
 

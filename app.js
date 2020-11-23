@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session')
 
+const db = require('./authenticate/dbconnect');
+
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let loginRouter = require('./routes/login');
@@ -105,12 +107,61 @@ app.post('/addtocart',  function(req,res,next){
   res.redirect("/pizzas")
 })
 
-app.post("/addToOrderTable", function(req, res, next){
 
-    for(let i=0; i< req.session.cartContent.length; i++){
-        console.log(req.session.cartContent[i]);
+
+app.post("/addToOrderTable",  function(req, res, next){
+
+    //random id generator,
+        let orderIdGen = Math.floor((Math.random() * 10000) + 1);
+
+
+    // console.log(orderIdGen);
+    let d = new Date();
+    // console.log("final price: ", d);
+
+    let orderFinal = {
+        Order_id : orderIdGen,
+        Status : 'Feldolgozas alatt',
+        finalPrice : parseInt(req.body.finalPrice),
+        phone : req.body.phone,
+        city : req.body.city,
+        street : req.body.street,
+        adNumber : req.body.adNumber,
+        floorBell : req.body.floorBell,
+        name : req.body.nameirl,
+        when : d
+    };
+
+    db.query('INSERT INTO pizzeriadb.order SET ?', orderFinal, function(err, result){
+        if (err) {
+            console.log(err);
+        }
+    });
+    //egyforma tipusu pizzák mennyiségének kiszámolása, ez sette alakitasa
+    let idArray = []
+    for(let i =0; i<req.session.cartContentCount; i++) {
+        idArray.push(req.session.cartContent[i].id);
+    }
+    let count = {};
+    idArray.forEach(function(i) { count[i] = (count[i]||0) + 1;});
+
+    for (let [key, value] of Object.entries(count)) {
+        db.query(`INSERT INTO pizzeriadb.contains (orderId, mennyiseg, pizzaId) VALUES ( ${orderIdGen}, ${value}, ${key})`);
+        //console.log(`${key}: ${value}`);
     }
 
+
+      //  for(let i=0; i<req.session.cartContentCount; i++){
+       // console.log("coneten:  ",req.session.cartContent[i]);
+          // console.log(orderFinal);
+
+
+        //egyforma tipusu pizzák mennyiségének kiszámolása
+         //for(let i =0; i<req.session.cartContentCount; i++){
+            //let pizzid = req.session.cartContent[i].id;
+             //console.log(pizzid);
+
+        // }
 
 })
 
