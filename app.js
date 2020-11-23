@@ -166,10 +166,21 @@ app.post("/addToOrderTable",  function(req, res, next){
 })
 
 
-
+const util = require('util');
 //TODO : rendeles leadasa, a rendelesek tablaba való beszúrás // Insert into tablee
-app.post('/order',  function(req,res,next) {
+app.post('/editstatus',  async function(req,res,next) {
 
+    const query = util.promisify(db.query).bind(db);
+
+    const rendelesek = await query('SELECT * FROM pizzeriadb.order');
+
+
+    db.query(`UPDATE pizzeriadb.order SET Status = '${req.body.status}' WHERE Order_id = ${req.body.orderId}`);
+
+    res.render('index', {
+      //  title: 'Admin',
+       // rendelesek : rendelesek
+    });
 });
 
 

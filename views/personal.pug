@@ -9,43 +9,45 @@ block content
                     table.table
                         thead.thead-dark
                             tr
-                                th(scope='col') #
-                                th(scope='col') Feltétek
-                                th(scope='col') Pizza
-                                th(scope='col') Közepes Ár
-                                th(scope='col') Nagy Ár
-                                th(scope='col') Kosárba
+                                th(scope='col') Rendeles azonosito
+                                th(scope='col') Státusz
+                                th(scope='col') Fizetendő
+                                th(scope='col') Telefon
+                                th(scope='col') Város
+                                th(scope='col') Utca
+                                th(scope='col') Házszám
+                                th(scope='col') Csengő
+                                th(scope='col') Név
+                                th(scope='col') Mikor
+                                th(scope='col') Modosit
 
                         tbody
-                            each pizza in pizzas
-                                tr
+                            each rendeles in rendelesek
+                                form(action="/editstatus" method="post")
+                                        tr
+                                            td= rendeles.Order_id
+                                            td= rendeles.Status
+                                                input(type='hidden' value=rendeles.Order_id name='orderId')
+                                                select#cars(name='status')
+                                                    option(value= "Feldolgozas alatt" selected='')= "Feldolgozas alatt"
+                                                    option(value= "Keszites folyamatban" )= "Készítés folyamatban"
+                                                    option(value= "Lezart" )= "Lezárt"
+                                            td= rendeles.finalPrice
+                                            td= rendeles.phone
+                                            td= rendeles.city
+                                            td= rendeles.street
+                                            td= rendeles.adNumber
+                                            td= rendeles.floorBell
+                                            td= rendeles.name
+                                            td= rendeles.when
+                                            td
+                                                div
+                                                    input(class="btn btn-primary" type="submit" value="Módosít")
 
-                                    td= pizza.pizzaId
-                                    td= pizza.toppings
-                                    td= pizza.name
-                                    td= pizza.meretL
-                                    td= pizza.meretXXL
-                                    td
-                                        .dropdown.show
-                                            a#dropdownMenuLink.btn.btn-secondary.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-                                                | Választ
-                                            .dropdown-menu(aria-labelledby='dropdownMenuLink')
-                                                form(action="/addtocart" method="post")
-                                                    button.a.dropdown-item(name="kicsi"  value = {
-                                                        pizza: {
-                                                            id: pizza.pizzaId,
-                                                            name: pizza.name,
-                                                            size: pizza.meretL
-                                                        }
-                                                    }) Kicsi
-                                                    button.a.dropdown-item( name="nagy" value = {
-                                                        pizza: {
-                                                            id: pizza.pizzaId,
-                                                            name: pizza.name,
-                                                            size: pizza.meretXXL
-                                                        }
-                                                    }) Nagy
+
+
 
 
         else
             p SAJÁT ADATLAP OLDAL
+

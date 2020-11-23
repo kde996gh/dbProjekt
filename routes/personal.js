@@ -8,19 +8,12 @@ router.get('/', async function(req, res, next) {
 
     if(req.session.isAdmin == true){
 
+
         const query = util.promisify(db.query).bind(db);
 
-        const pizzakSorok = await query('SELECT * FROM pizza');
-        let pizzak = [];
-        for(let i = 0; i<pizzakSorok.length; i++){
-            let pizza = {
-                pizzaId :  pizzakSorok[i].idpizza,
-                name : pizzakSorok[i].pizzaName,
-                meretL : pizzakSorok[i].midPrice,
-                meretXXL : pizzakSorok[i].largePrice
-            };
-            pizzak.push(pizza);
-        }
+       const rendelesek = await query('SELECT * FROM pizzeriadb.order');
+       // console.log(rendelesek);
+
 
 
 
@@ -31,7 +24,7 @@ router.get('/', async function(req, res, next) {
 
         res.render('personal', {
             title: 'Admin',
-            pizzas : pizzak
+            rendelesek : rendelesek
         });
     }
     else{
