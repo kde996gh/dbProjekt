@@ -13,8 +13,10 @@ router.get('/', async function(req, res, next) {
         let priceSum = 0;
         if(curr !== undefined) {
             for (let i = 0; i < curr.length; i++) {
-                let totalSum = 0;
-
+                priceSum += parseInt(curr[i].meret);
+            }
+        }
+/*
                 let currPizzaId = curr[i]['id'];
                 //a pizzák ára a rajta lévő feltétektől függ, ezt minden pizzára külön számolja ki, az alábbi lekérdezés
                 let sum = await query(`
@@ -30,7 +32,7 @@ router.get('/', async function(req, res, next) {
                 curr[i].ar = totalSum ;
                 priceSum += totalSum;
             }
-        }
+        }*/
 
 
 
@@ -38,7 +40,7 @@ router.get('/', async function(req, res, next) {
 
     res.render('cart', {
         title: 'Kosár',
-        zsa : curr,
+        zsa : req.session.cartContent,
         addressData : req.session.loggedInUser,
         priceSum : priceSum
     });

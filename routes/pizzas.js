@@ -9,11 +9,12 @@ router.get('/', async function(req, res, next) {
         let pizzak = [];
        // pizza objektum letrehozasa es adattagok eltarolasa a lekerdezesbol
        for(let i = 0; i<pizzakSorok.length; i++) {
+           let midPrice = parseInt(pizzakSorok[i].midPrice);
+           let largePrice = parseInt(pizzakSorok[i].largePrice);
+           let currPizzaId = pizzakSorok[i].idpizza;
            let pizza = {
                pizzaId: pizzakSorok[i].idpizza,
-               name: pizzakSorok[i].pizzaName,
-               priceM: pizzakSorok[i].midPrice,
-               priceL: pizzakSorok[i].largePrice
+               name: pizzakSorok[i].pizzaName
            };
            //alapanyagok lekérése az adott IDjű pizzahoz
            let getMaterials = await query(`
@@ -30,6 +31,21 @@ router.get('/', async function(req, res, next) {
                else
                    stringge += ", " + getMaterials[a].materialName;
            }
+           /// pizzak listazasa mennyiseggel
+
+
+           let matPrice = await query(`
+                    SELECT SUM(pizzeriadb.material.price) AS ar
+                    FROM pizzeriadb.pizza, pizzeriadb.material, pizzeriadb.needs
+                    WHERE pizzeriadb.pizza.idpizza = pizzeriadb.needs.pizzaId
+                    AND pizzeriadb.needs.materialName = pizzeriadb.material.matName
+                    AND pizzeriadb.needs.pizzaId = ${currPizzaId};
+                `);
+           midPrice += parseInt(matPrice[0].ar);
+           largePrice += parseInt(matPrice[0].ar);
+
+           pizza.priceM = midPrice;
+           pizza.priceL = largePrice;
            pizza.material = stringge;
            pizzak.push(pizza);
        }

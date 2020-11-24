@@ -19,8 +19,7 @@ router.get('/', async function(req, res, next) {
                 city : currUser[0].city,
                 street : currUser[0].street,
                 adNumber : currUser[0].adNumber,
-                floorBell : currUser[0].floorBell,
-                point : currUser[0].points
+                floorBell : currUser[0].floorBell
 
             };
               //console.log(currUser);

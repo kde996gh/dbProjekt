@@ -2,9 +2,9 @@ extends layout
 
 block content
     div.text-center
-
-        p KOSÁR OLDAL
-
+        br
+        h3.text-center Kosaram
+        br
 
         if session.cartContent
             form(action="/addToOrderTable" method="post")
@@ -15,14 +15,13 @@ block content
                             th(scope='col') Pizza
                             th(scope='col') Feltétek
                             th(scope='col') Összeg
-                            th(scope='col') Töröl
                     tbody
                         each x in zsa
                             tr
                                 td= x.id
                                 td= x.name
                                 td= x.extra
-                                td= x.ar
+                                td= x.meret
 
 
                 p='Végösszeg: ' +  priceSum

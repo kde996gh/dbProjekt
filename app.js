@@ -7,6 +7,9 @@ var session = require('express-session')
 
 const db = require('./authenticate/dbconnect');
 
+const util = require('util');
+const query = util.promisify(db.query).bind(db);
+
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let loginRouter = require('./routes/login');
@@ -108,7 +111,7 @@ app.post("/addToOrderTable",  async function(req, res, next){
     // console.log(orderIdGen);
     let d = new Date();
     // console.log("final price: ", d);
-    const query = util.promisify(db.query).bind(db);
+    //const query = util.promisify(db.query).bind(db);
 
     let orderFinal = {
         Order_id : orderIdGen,
@@ -124,8 +127,6 @@ app.post("/addToOrderTable",  async function(req, res, next){
         email : req.body.email
     };
     let email = req.body.email;
-    //console.log("IMEL: ", email);
-
     let emailCheck =await query(`SELECT * FROM pizzeriadb.users WHERE email = "${email}"`);
     if(emailCheck.length === 0){
         let userInsertToUsers = {
@@ -143,11 +144,8 @@ app.post("/addToOrderTable",  async function(req, res, next){
     }
 
 
-    db.query('INSERT INTO pizzeriadb.order SET ?', orderFinal, function(err, result){
-        if (err) {
-            console.log(err);
-        }
-    });
+    await query('INSERT INTO pizzeriadb.order SET ?', orderFinal);
+
     //egyforma tipusu pizzák mennyiségének kiszámolása, ez sette alakitasa
     let idArray = []
     for(let i =0; i<req.session.cartContentCount; i++) {
@@ -170,25 +168,52 @@ app.post("/addToOrderTable",  async function(req, res, next){
 })
 
 
-const util = require('util');
 //TODO : rendeles leadasa, a rendelesek tablaba való beszúrás // Insert into tablee
 app.post('/editstatus',  async function(req,res,next) {
 
-    const query = util.promisify(db.query).bind(db);
+
 
     const rendelesek = await query('SELECT * FROM pizzeriadb.order');
+    //
     if(req.body.status==='Torles'){
         let currId = req.body.orderId;
         await query(`DELETE FROM pizzeriadb.includes WHERE pizzeriadb.includes.orderId = ${currId};`);
         await query(`DELETE FROM pizzeriadb.order WHERE pizzeriadb.order.Order_id = ${currId};`);
     }else {
-        db.query(`UPDATE pizzeriadb.order SET Status = '${req.body.status}' WHERE Order_id = ${req.body.orderId}`);
+        await query(`UPDATE pizzeriadb.order SET Status = '${req.body.status}' WHERE Order_id = ${req.body.orderId}`);
     }
     res.render('index', {
-      //  title: 'Admin',
-       // rendelesek : rendelesek
+        title: 'Admin',
+        rendelesek : rendelesek
     });
 });
+
+app.post('/pwchange',  async function(req,res,next) {
+    let email = req.body.email;
+    let oldPassword = req.body.passwordOld
+    let newPw1 = req.body.password1;
+    let newPw2 = req.body.password2;
+    console.log(email)
+    console.log(oldPassword)
+    console.log(newPw1)
+    console.log(newPw2)
+    let oldPwCheck = await query(`SELECT password FROM users WHERE email = '${email}'`);
+    if(oldPwCheck[0].password === oldPassword && newPw1===newPw2){
+        await query(`UPDATE pizzeriadb.users SET password = '${newPw1}' WHERE email = '${email}'`);
+        res.render('personal', {
+            title: 'Admin',
+            msg : "Sikeres jelszócsere!"
+        });
+    }
+    else{
+        res.render('personal', {
+            title: 'Admin',
+            msg : "Hibás a megadott régi és/vagy az új jelszavak nem egyeznek!"
+        });
+    }
+
+});
+
 
 
 
