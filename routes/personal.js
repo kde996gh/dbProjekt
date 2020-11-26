@@ -3,19 +3,12 @@ var router = express.Router();
 const db = require('../authenticate/dbconnect');
 const util = require('util');
 
-/* GET home page. */
 router.get('/', async function(req, res, next) {
-
     if(req.session.isAdmin === true){
-
         const query = util.promisify(db.query).bind(db);
-
        const rendelesek = await query('SELECT * FROM pizzeriadb.order');
-
-      // const osszetettRendeles = await query("");
         let a  = rendelesek;
         for(let x=0; x<a.length; x++){
-            //a[x].tipusok = "minden joooo";
             //rendeleshez tartozo pizzak és mennyiseg befuzese az elozo lekerdezes objektumba
            const typeCount = await query (`
                 SELECT  pizzeriadb.pizza.pizzaName, pizzeriadb.includes.mennyiseg
@@ -27,44 +20,27 @@ router.get('/', async function(req, res, next) {
                 ORDER BY pizzeriadb.order.Order_id`);
            // tömbként tárolom, utána lehet iterálni vele listázáskor
            let tipusok =[];
+           //rendelésben található pizzák és mennyiségének kiszámolása
            for(let y=0; y<typeCount.length; y++){
-               //if(tipusok.length===0)
                   tipusok.push(`${typeCount[y].pizzaName} ${typeCount[y].mennyiseg}`);
-              /// else
-                  // tipusok += (`\n${typeCount[y].pizzaName} ${typeCount[y].mennyiseg}`)
-              // console.log(typeCount[y].pizzaName, typeCount[y].mennyiseg);
            }
+           //objektum attributumához ad
             a[x].tipusok = tipusok;
-            console.log(tipusok);
-            console.log("-----------------------------------------------------------")
-
-
-
         }
-      //  console.log(a);
-
-       // console.log(rendelesek);
-        /*
-
-
-         */
+        //minden pizzalekérése dbből
+        const pizzakSorok = await query('SELECT * FROM pizza');
 
         res.render('personal', {
             title: 'Admin',
-            rendelesek : a
+            rendelesek : a,
+            pizzak : pizzakSorok
         });
     }
     else{
         res.render('personal', {
             title: 'Adatlap',
         });
-
-
     }
-
-
-
-
 });
 
 module.exports = router;

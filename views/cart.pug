@@ -15,6 +15,7 @@ block content
                             th(scope='col') Pizza
                             th(scope='col') Feltétek
                             th(scope='col') Összeg
+                            th(scope='col') Töröl
                     tbody
                         each x in zsa
                             tr
@@ -22,7 +23,6 @@ block content
                                 td= x.name
                                 td= x.extra
                                 td= x.meret
-
 
                 p='Végösszeg: ' +  priceSum
                 input(type='hidden' value=priceSum name='finalPrice')
@@ -53,7 +53,6 @@ block content
                     div(class="form-group")
                         div(class="text-center")
                             input(class="btn btn-primary" type="submit" value="Vásárlás")
-
 
         script.
             var user = !{JSON.stringify(session.loggedInUser)}

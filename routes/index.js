@@ -3,14 +3,11 @@ var router = express.Router();
 const db = require('../authenticate/dbconnect');
 const util = require('util');
 
-/* GET home page. */
 router.get('/', async function(req, res, next) {
     const query = util.promisify(db.query).bind(db);
-
-
     if(req.session.isLoggedIn){
         let email = req.session.user;
-        console.log(email);
+        //a bejelentkezett user adatainak lekérése adatábzisból és sessionben való eltárolása
         const currUser = await query(`SELECT * FROM pizzeriadb.users WHERE email = ?`, email);
             req.session.loggedInUser = {
                 email : currUser[0].email,
@@ -22,8 +19,6 @@ router.get('/', async function(req, res, next) {
                 floorBell : currUser[0].floorBell
 
             };
-              //console.log(currUser);
-            //console.log(currUser[0].floorBell);
     }
     console.log(req.session.loggedInUser);
 

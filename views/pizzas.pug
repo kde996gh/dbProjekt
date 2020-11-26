@@ -6,6 +6,9 @@ block content
         h3.text-center Étlap
         br
 
+        h6 Legjobb ajánlatok
+        each best in bestValue
+            h6= best.pizzaName
         table.table
             thead.thead-dark
                 tr
@@ -14,9 +17,7 @@ block content
                     th(scope='col') Feltétek
                     th(scope='col') Méret és Ár
                     th(scope='col') Kosárba
-
             tbody
-
                 each pizza in pizzas
                     form(action="/addtocart" method="post")
                         tr
@@ -34,5 +35,3 @@ block content
                                         input(type='hidden' value=pizza.name name='pizzaName')
                                         input(type='hidden' value=pizza.material name='pizzaMaterial')
                                         input(class="btn btn-primary" type="submit" value="Kosárba")
-
-

@@ -53,7 +53,33 @@ block content
                                                 div
                                                     input(class="btn btn-primary" type="submit" value="Módosít")
 
+                h3.text-center Ár módosítás
+                div
+                    table.table
+                        thead.thead-dark
+                            tr
+                                th(scope='col') Azonosító
+                                th(scope='col') Név
+                                th(scope='col') Közepes Ár
+                                th(scope='col') Nagy Ár
+                                th(scope='col') Módosítás
 
+
+                        tbody
+                            each pizza in pizzak
+                                form(action="/editprice" method="post")
+                                    tr
+                                        td= pizza.idpizza
+                                        input(class="form-control" type="hidden",name="pizzaIdChange" value=pizza.idpizza)
+                                        td= pizza.pizzaName
+                                        td
+                                            input(class="form-control" type="text", name="midPriceChange"  value=pizza.midPrice)
+                                        td
+                                            input(class="form-control" type="text", name="largePriceChange"  value=pizza.largePrice)
+
+                                        td
+                                            div
+                                                input(class="btn btn-primary" type="submit" value="Módosít")
 
 
 

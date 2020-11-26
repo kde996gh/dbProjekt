@@ -32,8 +32,6 @@ router.get('/', async function(req, res, next) {
                    stringge += ", " + getMaterials[a].materialName;
            }
            /// pizzak listazasa mennyiseggel
-
-
            let matPrice = await query(`
                     SELECT SUM(pizzeriadb.material.price) AS ar
                     FROM pizzeriadb.pizza, pizzeriadb.material, pizzeriadb.needs
@@ -49,13 +47,18 @@ router.get('/', async function(req, res, next) {
            pizza.material = stringge;
            pizzak.push(pizza);
        }
+            //legjobb ár - érték ajánlat kiszámolása, ami az átlag alatt van azt adja vissza
+            //alkérdéses lekérdezés
+           let bestValue = await query(`
+                                    SELECT pizzeriadb.pizza.pizzaName
+                                    FROM pizza
+                                    WHERE (largePrice+150) < (SELECT avg(pizzeriadb.pizza.largePrice) FROM pizzeriadb.pizza);`);
 
         res.render('pizzas', {
         title: 'Pizzák',
-        pizzas : pizzak
+        pizzas : pizzak,
+            bestValue : bestValue
 
     });
 });
-
-
 module.exports = router;
