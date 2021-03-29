@@ -1,0 +1,42 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet' href = '/bootstrap/bootstrap.css')
+        link(rel='stylesheet', href='../stylesheets/style.css')
+    body
+    div(class="wrapper")
+        div(class="form-signin")
+            h1= title
+            if error
+                div(class="alert alert-danger" role='alert') #{error}
+            if msgReg
+                p #{msgReg}
+            form(action="/registration" method="post")
+                div(class="form-group")
+                    label(for="email") Email cím
+                    input(class="form-control" type="text",name="email" placeholder="email@pelda.com" autofocus required)
+                div(class="form-group")
+                    label(for="password") Jelszó
+                    input(class="form-control" type="password",name="password" placeholder="jelszó" required)
+                div(class="form-group")
+                    label(for="password2") Jelszó ismétlése
+                    input(class="form-control" type="password", name="password2" placeholder="jelszó" autofocus required)
+                div(class="form-group")
+                    label(for="name") Név
+                    input(class="form-control" type="text", name="nameirl" placeholder="Kovács Gizi" autofocus required)
+                div(class="form-group")
+                    label(for="phone") Telefonszám
+                    input(class="form-control" type="text",name="phone" placeholder="+36123456789" required)
+                div(class="form-group")
+                    label(for="x") Város
+                         input(class="form-control" type="text",name="city" placeholder="szeged" required)
+                    label(for="x") Utca
+                         input(class="form-control" type="text",name="street" placeholder="Példa utca" required)
+                    label(for="x") Házszám
+                         input(class="form-control" type="text",name="adnumber" placeholder="22/B" required)
+                    label(for="x") Emelet/ajtó
+                        input(class="form-control" type="text",name="floorbell" placeholder="3/14" required)
+                div(class="form-group")
+                    div(class="text-center")
+                        input(class="btn btn-primary" type="submit" value="Regisztráció")

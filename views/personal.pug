@@ -1,0 +1,165 @@
+extends layout
+
+block content
+
+    div
+        if session.isAdmin
+                br
+                h4.text-center Üdv PizzaAdmin :)
+                br
+                div
+                    table.table
+                        thead.thead-dark
+                            tr
+                                th(scope='col') Azonosító
+                                th(scope='col') Státusz
+                                th(scope='col') Tartalom
+                                th(scope='col') Fizetendő
+                                th(scope='col') Név
+                                th(scope='col') Telefonszám
+                                th(scope='col') Város
+                                th(scope='col') Utca
+                                th(scope='col') Házszám
+                                th(scope='col') Csengő
+                                th(scope='col') Módosít
+
+                        tbody
+                            each rendeles in rendelesek
+                                form(action="/editstatus" method="post")
+                                        tr
+                                            td= rendeles.Order_id
+                                            td= rendeles.Status
+                                                br
+                                                input(type='hidden' value=rendeles.Order_id name='orderId')
+                                                select(name='status')
+                                                    option(value= "Feldolgozas alatt" )= "Feldolgozás alatt"
+                                                    option(value= "Keszites folyamatban")= "Készítés folyamatban"
+                                                    option(value= "Lezart")= "Lezárt"
+                                                    option(value= "Torles")= "Törlés"
+                                            td
+                                                ul
+                                                    each val in rendeles.tipusok
+                                                        li= val
+                                            td= rendeles.finalPrice
+                                            td= rendeles.name
+                                            td= rendeles.phone
+                                            td= rendeles.city
+                                            td= rendeles.street
+                                            td= rendeles.adNumber
+                                            td= rendeles.floorBell
+
+
+                                            td
+                                                div
+                                                    input(class="btn btn-primary" type="submit" value="Módosít")
+
+                h3.text-center Ár módosítás
+                div
+                    table.table
+                        thead.thead-dark
+                            tr
+                                th(scope='col') Azonosító
+                                th(scope='col') Név
+                                th(scope='col') Közepes Ár
+                                th(scope='col') Nagy Ár
+                                th(scope='col') Módosítás
+
+
+                        tbody
+                            each pizza in pizzak
+                                form(action="/editprice" method="post")
+                                    tr
+                                        td= pizza.idpizza
+                                        input(class="form-control" type="hidden",name="pizzaIdChange" value=pizza.idpizza)
+                                        td= pizza.pizzaName
+                                        td
+                                            input(class="form-control" type="text", name="midPriceChange"  value=pizza.midPrice)
+                                        td
+                                            input(class="form-control" type="text", name="largePriceChange"  value=pizza.largePrice)
+
+                                        td
+                                            div
+                                                input(class="btn btn-primary" type="submit" value="Módosít")
+
+
+
+        else
+            .cont.text-center
+                            br
+                            h3 Saját adatok
+                            br
+                            .table-responsive
+                                table.table.table-user-information
+                                    tbody
+                                        tr
+                                            td
+                                                strong
+                                                    span
+                                                    |                                 Email cím
+                                            td
+                                                | #{session.loggedInUser.email}
+                                        tr
+                                            td
+                                                strong
+                                                    span.glyphicon.glyphicon-cloud.text-primary
+                                                    |                                 Név
+                                            td
+                                                | #{session.loggedInUser.nameirl}
+                                        tr
+                                            td
+                                                strong
+                                                    span.glyphicon.glyphicon-bookmark.text-primary
+                                                    |                                 Telefonszám
+                                            td
+                                                | #{session.loggedInUser.phone}
+                                        tr
+                                            td
+                                                strong
+                                                    span.glyphicon.glyphicon-eye-open.text-primary
+                                                    |                                 Város
+                                            td
+                                                | #{session.loggedInUser.city}
+                                        tr
+                                            td
+                                                strong
+                                                    span.glyphicon.glyphicon-envelope.text-primary
+                                                    |                                 Utca
+                                            td
+                                                | #{session.loggedInUser.street}
+                                        tr
+                                            td
+                                                strong
+                                                    span.glyphicon.glyphicon-calendar.text-primary
+                                                    |                                 Házszám
+                                            td
+                                                | #{session.loggedInUser.adNumber}
+                                        tr
+                                            td
+                                                strong
+                                                    span.glyphicon.glyphicon-calendar.text-primary
+                                                    |                                 Csengő
+                                            td
+                                                | #{session.loggedInUser.floorBell}
+
+
+            div(class="wrapper")
+                div(class="form-signin")
+                    br
+                    h3.text-center Jelszócsere
+                    br
+                    if msg
+                        p #{msg}
+                    form(action="/pwchange" method="post")
+                        div(class="form-group")
+                            label(for="password2") Régi jelszó
+                            input(class="form-control" type="password",name="passwordOld" required)
+                        div(class="form-group")
+                            label(for="password1") Új jelszó
+                            input(class="form-control" type="password",name="password1" autofocus required)
+                            input(class="form-control" type="hidden",name="email" value=session.loggedInUser.email)
+                        div(class="form-group")
+                            label(for="password2") Új jelszó mégegyszer
+                            input(class="form-control" type="password",name="password2" required)
+                        div(class="form-group")
+                            div(class="text-center")
+                                input(class="btn btn-primary" type="submit" value="Jelszócsere")
